@@ -1,5 +1,6 @@
 var express = require("express");
 var hbs = require("hbs");
+var fs = require("fs");
 
 var app = express();
 
@@ -15,9 +16,20 @@ hbs.registerHelper('screamIt', (text)=>{
     return text.toUpperCase();
 });
 
+app.use((req, res, next)=>{
+    var log = `${new Date().toString()} : ${req.method} ${req.url} \n`;
+   fs.appendFile("logs.log", log, (err)=>{
+    if(err) {
+        console.log("Log could not be appended");
+   }
+})
+next();
+});
+
 app.use((req,res,next)=>{
     res.render('maintanance.hbs');
 })
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/',(req, res)=>{
