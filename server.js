@@ -4,6 +4,8 @@ var fs = require("fs");
 
 var app = express();
 
+var port = process.env.PORT || 3000;
+
 app.set('view engine', 'hbs');
 
 hbs.registerPartials(__dirname + "/views/partials");
@@ -26,9 +28,9 @@ app.use((req, res, next)=>{
 next();
 });
 
-app.use((req,res,next)=>{
-    res.render('maintanance.hbs');
-})
+// app.use((req,res,next)=>{
+//     res.render('maintanance.hbs');
+// })
 
 app.use(express.static(__dirname + '/public'));
 
@@ -52,4 +54,4 @@ app.get('/getJSON',(req, res)=>{
         age: 21
     });
 })
-app.listen(3000);                                                                                                               
+app.listen(port);                                                                                                               
